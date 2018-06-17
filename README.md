@@ -18,9 +18,8 @@ dependencies:
 require "scryfall"
 
 uuid = UUID.new("af8b9c79-a161-4d7d-944d-82a44a5f2ab9")
-api = Scryfall::API.new
 
-api.fetch_card(uuid)
+Scryfall::API.fetch_card(uuid)
 ```
 
 ## Contributing

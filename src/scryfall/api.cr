@@ -15,17 +15,22 @@ module Scryfall
     }
 
     # Look up card in scryfall by id
-    def fetch_card(id : UUID) : Scryfall::Card
-      Scryfall::Card.from_json(make_request("/cards/#{id.to_s}"))
+    def self.fetch_card(id : UUID) : Scryfall::Card
+      fetch_card(id.to_s)
+    end
+
+    # Look up card in scryfall by id
+    def self.fetch_card(id : String) : Scryfall::Card
+      Scryfall::Card.from_json(make_request("/cards/#{id}"))
     end
 
     # Look up card in scryfall by multiverse id
-    def fetch_card_by_mv(id : Int32) : Scryfall::Card
+    def self.fetch_card_by_mv(id : Int32) : Scryfall::Card
       Scryfall::Card.from_json(make_request("/cards/multiverse/#{id}"))
     end
 
     # Look up card in scryfall by name
-    def fetch_card_by_name(name : String) : CardList
+    def self.fetch_card_by_name(name : String) : CardList
       params = HTTP::Params.build do |form|
         form.add "order", "set"
         form.add "unique", "prints"
@@ -34,7 +39,7 @@ module Scryfall
       Scryfall::CardList.from_json(make_request(SF_SEARCH_PATH, params))
     end
 
-    private def make_request(path : String, params : String | Nil = nil)
+    private def self.make_request(path : String, params : String | Nil = nil)
       sleep(0.5)
       uri = URI.new(scheme: SF_SCHEME, host: SF_HOST, path: path, query: params.to_s)
       Halite.get(uri.to_s, headers: SH_HEADERS).body
