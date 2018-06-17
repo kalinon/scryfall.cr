@@ -1,6 +1,6 @@
 # scryfall.cr
 
-TODO: Write a description here
+A Crystal api wrapper for https://scryfall.com
 
 ## Installation
 
@@ -16,13 +16,12 @@ dependencies:
 
 ```crystal
 require "scryfall"
+
+uuid = UUID.new("af8b9c79-a161-4d7d-944d-82a44a5f2ab9")
+api = Scryfall::API.new
+
+api.fetch_card(uuid)
 ```
-
-TODO: Write usage instructions here
-
-## Development
-
-TODO: Write development instructions here
 
 ## Contributing
 
