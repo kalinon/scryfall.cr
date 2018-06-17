@@ -57,6 +57,7 @@ module Scryfall
 
     # Returns the current page number
     def page : Int32
+      puts params.inspect
       if params.has_key?("page")
         params["page"].to_i32
       else
@@ -70,6 +71,7 @@ module Scryfall
       unless nex.nil?
         uri = URI.parse next_page.to_s
         params = HTTP::Params.parse(nex.query || "")
+        params["page"] = ((params["page"].to_i32) - 1).to_s
         uri.query = params.to_s
         uri
       else
@@ -79,9 +81,12 @@ module Scryfall
 
     # Will make an api request using the next_page value if available
     def fetch_next_page : CardList
+      puts "fetch_next_page : #{next_page.to_s}"
       nex = next_page
       if has_more? && !nex.nil?
-        CardList.from_json Scryfall::Api.make_request(nex)
+        cards = CardList.from_json(Scryfall::Api.make_request(nex))
+        cards.uri = nex
+        cards
       else
         CardList.new
       end
@@ -89,9 +94,12 @@ module Scryfall
 
     # Will make an api request decrementing the page number if available
     def fetch_prev_page : CardList
+      puts "fetch_prev_page"
       prev = prev_page
       if !prev.nil?
-        CardList.from_json Scryfall::Api.make_request(prev)
+        cards = CardList.from_json(Scryfall::Api.make_request(prev))
+        cards.uri = prev
+        cards
       else
         CardList.new
       end

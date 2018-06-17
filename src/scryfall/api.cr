@@ -1,6 +1,7 @@
 require "halite"
 require "uuid"
 require "./models/*"
+require "logger"
 
 module Scryfall
   class Api
@@ -15,6 +16,16 @@ module Scryfall
       "Content-Type" => "application/json; charset=utf-8",
     }
     SF_SLEEP_TIME = 0.5
+
+    @@log = Logger.new(STDOUT, level: Logger::DEBUG)
+
+    protected def self.log
+      @@log
+    end
+
+    def self.log(log : Logger)
+      @@log = log
+    end
 
     # Fetches all cards from Scryfall. Will return paginated list
     def self.fetch_all_cards(page : Int32 | String = 1) : Scryfall::CardList
@@ -73,6 +84,7 @@ module Scryfall
     # Make a request with a URI object
     def self.make_request(uri : URI)
       sleep(SF_SLEEP_TIME)
+      log.info("GET: #{uri.to_s}", "Scryfall::Api")
       Halite.get(uri.to_s, headers: SF_HEADERS).body
     end
   end

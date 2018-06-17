@@ -34,7 +34,7 @@ module Scryfall
       hand_modifier: {type: String, nilable: true},
       colors: {type: Array(String), default: [] of String},
       color_indicator: {type: Array(String), nilable: true},
-      all_parts: {type: Array(String), nilable: true},
+      all_parts: {type: Array(Scryfall::RelatedCard), nilable: true},
       legalities: Hash(String, String),
       reserved: Bool,
       foil: Bool,
