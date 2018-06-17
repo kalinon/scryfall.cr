@@ -38,11 +38,9 @@ describe Scryfall::CardList do
     it "should fetch next page" do
       next_page.should_not be_nil
     end
-
     it "size is 175" do
       next_page.size.should eq 175
     end
-
     it "page is 2" do
       next_page.page.should eq 2
     end
@@ -54,11 +52,9 @@ describe Scryfall::CardList do
     it "should fetch next page" do
       prev_page.should_not be_nil
     end
-
     it "size is 175" do
       prev_page.size.should eq 175
     end
-
     it "page is 1" do
       prev_page.page.should eq 1
     end
