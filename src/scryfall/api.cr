@@ -1,5 +1,6 @@
 require "halite"
 require "uuid"
+require "./models/*"
 
 module Scryfall
   class API
@@ -13,25 +14,24 @@ module Scryfall
       "Content-Type" => "application/json; charset=utf-8",
     }
 
-
     # Look up card in scryfall by id
-    def fetch_card(id : UUID) : String
-      make_request("/cards/#{id.to_s}")
+    def fetch_card(id : UUID) : Scryfall::Card
+      Scryfall::Card.from_json(make_request("/cards/#{id.to_s}"))
     end
 
     # Look up card in scryfall by multiverse id
-    def fetch_card_by_mv(id : Int32) : String
-      make_request("/cards/multiverse/#{id}")
+    def fetch_card_by_mv(id : Int32) : Scryfall::Card
+      Scryfall::Card.from_json(make_request("/cards/multiverse/#{id}"))
     end
 
     # Look up card in scryfall by name
-    def fetch_card_by_name(name : String) : String
+    def fetch_card_by_name(name : String) : CardList
       params = HTTP::Params.build do |form|
         form.add "order", "set"
         form.add "unique", "prints"
         form.add "q", "name:!\"#{name}\""
       end
-      make_request(SF_SEARCH_PATH, params)
+      Scryfall::CardList.from_json(make_request(SF_SEARCH_PATH, params))
     end
 
     private def make_request(path : String, params : String | Nil = nil)
