@@ -13,7 +13,7 @@ module Scryfall
       oracle_text: {type: String, nilable: true},
       printed_text: String,
       mana_cost: String,
-      colors: Array(String),
+      colors: {type: Array(String), default: [] of String},
       color_indicator: {type: Array(String), nilable: true},
       power: {type: String, nilable: true},
       toughness: {type: String, nilable: true},

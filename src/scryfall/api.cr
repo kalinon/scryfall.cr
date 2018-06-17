@@ -3,16 +3,28 @@ require "uuid"
 require "./models/*"
 
 module Scryfall
-  class API
+  class Api
     class Error < Exception
     end
 
     SF_SCHEME      = "https"
     SF_HOST        = "api.scryfall.com"
+    SF_CARDS_PATH  = "/cards"
     SF_SEARCH_PATH = "/cards/search"
-    SH_HEADERS     = {
+    SF_HEADERS     = {
       "Content-Type" => "application/json; charset=utf-8",
     }
+    SF_SLEEP_TIME = 0.5
+
+    # Fetches all cards from Scryfall. Will return paginated list
+    def self.fetch_all_cards(page : Int32 | String = 1) : Scryfall::CardList
+      params = HTTP::Params.build do |form|
+        form.add "page", page.to_s
+        form.add "format", "json"
+        form.add "pretty", "false"
+      end
+      fetch_card_list(SF_CARDS_PATH, params)
+    end
 
     # Look up card in scryfall by id
     def self.fetch_card(id : UUID) : Scryfall::Card
@@ -36,13 +48,32 @@ module Scryfall
         form.add "unique", "prints"
         form.add "q", "name:!\"#{name}\""
       end
-      Scryfall::CardList.from_json(make_request(SF_SEARCH_PATH, params))
+
+      fetch_card_list(SF_SEARCH_PATH, params)
     end
 
-    private def self.make_request(path : String, params : String | Nil = nil)
-      sleep(0.5)
-      uri = URI.new(scheme: SF_SCHEME, host: SF_HOST, path: path, query: params.to_s)
-      Halite.get(uri.to_s, headers: SH_HEADERS).body
+    # Function to wrap card list searches to properly set the request URI
+    protected def self.fetch_card_list(path : String, params : String | Nil = nil) : CardList
+      uri = make_request_uri(path, params)
+      card_list = Scryfall::CardList.from_json(make_request(uri))
+      card_list.uri = uri
+      card_list
+    end
+
+    # URI helper function
+    def self.make_request_uri(path : String, params : String | Nil = nil) : URI
+      URI.new(scheme: SF_SCHEME, host: SF_HOST, path: path, query: params.to_s)
+    end
+
+    # Make a request with a string URI
+    def self.make_request(path : String, params : String | Nil = nil)
+      make_request(make_request_uri(path, params))
+    end
+
+    # Make a request with a URI object
+    def self.make_request(uri : URI)
+      sleep(SF_SLEEP_TIME)
+      Halite.get(uri.to_s, headers: SF_HEADERS).body
     end
   end
 end
