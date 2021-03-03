@@ -10,64 +10,86 @@ module Scryfall
     # Core Card Fields
     include JSON::Serializable
 
-    property id : UUID
-    property oracle_id : UUID
-    property multiverse_ids : Array(Int32)? = nil
-    property mtgo_id : Int32? = nil
-    property mtgo_foil_id : Int32? = nil
-    property arena_id : Int32? = nil
-    property uri : URI
-    property scryfall_uri : URI
-    property prints_search_uri : URI
-    property rulings_uri : URI
+    getter arena_id : Int32? = nil
+    getter id : UUID
+    getter lang : String
+    getter mtgo_id : Int32? = nil
+    getter mtgo_foil_id : Int32? = nil
+    getter multiverse_ids : Array(Int32)? = nil
+    getter tcgplayer_id : Int32? = nil
+    getter tcgplayer_id : Int32? = nil
+    getter object : String
+    getter oracle_id : UUID
+    getter prints_search_uri : URI
+    getter rulings_uri : URI
+    getter scryfall_uri : URI
+    getter uri : URI
 
     # Gameplay Fields
-    property name : String
-    property layout : String
-    property cmc : Float32
-    property type_line : String
-    property oracle_text : String? = nil
-    property mana_cost : String = ""
-    property power : String? = nil
-    property toughness : String? = nil
-    property loyalty : String? = nil
-    property life_modifier : String? = nil
-    property hand_modifier : String? = nil
-    property colors : Array(String) = Array(String).new
-    property color_indicator : Array(String)? = nil
-    property all_parts : Array(Scryfall::RelatedCard)? = nil
-    property legalities : Hash(String, String)
-    property reserved : Bool
-    property foil : Bool
-    property nonfoil : Bool
-    property oversized : Bool
-    property edhrec_rank : Int32? = nil
+    getter all_parts : Array(Scryfall::RelatedCard) = Array(Scryfall::RelatedCard).new
+    getter card_faces : Array(Scryfall::CardFace) = Array(Scryfall::CardFace).new
+    getter cmc : Float32
+    getter color_identity : String
+    getter color_indicator : Array(String) = Array(String).new
+    getter colors : Array(String) = Array(String).new
+    getter edhrec_rank : Int32? = nil
+    getter foil : Bool
+    getter hand_modifier : String? = nil
+    getter keywords : Array(String) = Array(String).new
+    getter layout : String
+    getter legalities : Hash(String, String)
+    getter life_modifier : String? = nil
+    getter loyalty : String? = nil
+    getter mana_cost : String? = nil
+    getter name : String
+    getter nonfoil : Bool
+    getter oracle_text : String? = nil
+    getter oversized : Bool
+    getter power : String? = nil
+    getter produced_mana : Array(String) = Array(String).new
+    getter type_line : String
+    getter reserved : Bool
+    getter toughness : String? = nil
+    getter type_line : String
 
     # Print Fields
-    property set : String
-    property set_name : String
-    property collector_number : String
-    property set_search_uri : URI
-    property scryfall_set_uri : URI
-    property image_uris : Hash(String, URI)? = nil
-    property highres_image : Bool
-    property printed_name : String = ""
-    property printed_type_line : String = ""
-    property printed_text : String = ""
-    property reprint : Bool
-    property digital : Bool
-    property rarity : String
-    property flavor_text : String? = nil
-    property artist : String? = nil
-    property illustration_id : URI? = nil
-    property frame : String
-    property full_art : Bool
-    property watermark : String? = nil
-    property border_color : String
-    property story_spotlight_number : Int32? = nil
-    property story_spotlight_uri : URI? = nil
-
-    property card_faces : Array(Scryfall::CardFace)? = nil
-    property related_cards : Array(Scryfall::RelatedCard)? = nil
+    getter artist : String? = nil
+    getter booster : Bool
+    getter border_color : String
+    getter card_back_id : UUID
+    getter collector_number : String
+    getter content_warning : Bool = false
+    getter digital : Bool
+    getter flavor_name : String? = nil
+    getter flavor_text : String? = nil
+    getter frame_effects : Array(String) = Array(String).new
+    getter frame : String
+    getter full_art : Bool
+    getter games : Array(String) = Array(String).new
+    getter highres_image : Bool
+    getter illustration_id : URI? = nil
+    getter image_uris : Hash(String, URI) = Hash(String, URI).new
+    getter prices : Hash(String, String)
+    getter printed_name : String? = nil
+    getter printed_text : String? = nil
+    getter printed_type_line : String? = nil
+    getter promo : Bool
+    getter promo_types : Array(String) = Array(String).new
+    getter purchase_uris : Hash(String, String)
+    getter rarity : String
+    getter related_uris : Hash(String, String)
+    getter released_at : String
+    getter reprint : Bool
+    getter set_search_uri : URI
+    getter set_name : String
+    getter set_type : String
+    getter set_uri : URI
+    getter set : String
+    getter story_spotlight : Bool
+    getter textless : Bool
+    getter variation : Bool
+    getter variation_of : UUID? = nil
+    getter watermark : String? = nil
+    getter preview : Hash(String, String) = Hash(String, String).new
   end
 end
