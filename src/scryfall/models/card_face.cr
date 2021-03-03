@@ -5,22 +5,25 @@ require "../../ext/uri/json"
 
 module Scryfall
   struct CardFace
-    JSON.mapping(
-      name: String,
-      printed_name: {type: String, nilable: true},
-      type_line: {type: String, default: ""},
-      printed_type_line: {type: String, default: ""},
-      oracle_text: {type: String, nilable: true},
-      printed_text: String,
-      mana_cost: String,
-      colors: {type: Array(String), default: [] of String},
-      color_indicator: {type: Array(String), nilable: true},
-      power: {type: String, nilable: true},
-      toughness: {type: String, nilable: true},
-      loyalty: {type: String, nilable: true},
-      flavor_text: {type: String, nilable: true},
-      illustration_id: {type: UUID, nilable: true},
-      image_uris: {type: Hash(String, URI), nilable: true},
-    )
+    include JSON::Serializable
+
+    getter artist : String? = nil
+    getter colors : Array(String) = Array(String).new
+    getter color_indicator : Array(String)? = nil
+    getter flavor_text : String? = nil
+    getter illustration_id : UUID? = nil
+    getter image_uris : Hash(String, URI)? = nil
+    getter loyalty : String? = nil
+    getter mana_cost : String
+    getter name : String
+    getter object : String
+    getter oracle_text : String? = nil
+    getter power : String? = nil
+    getter printed_name : String? = nil
+    getter printed_text : String? = nil
+    getter printed_type_line : String = ""
+    getter toughness : String? = nil
+    getter type_line : String = ""
+    getter watermark : String = ""
   end
 end

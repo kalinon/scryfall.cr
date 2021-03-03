@@ -1,7 +1,7 @@
 require "halite"
 require "uuid"
 require "./models/*"
-require "logger"
+require "spoved/logger"
 
 module Scryfall
   class Api
@@ -10,32 +10,13 @@ module Scryfall
 
     SF_SCHEME      = "https"
     SF_HOST        = "api.scryfall.com"
-    SF_CARDS_PATH  = "/cards"
     SF_SEARCH_PATH = "/cards/search"
     SF_HEADERS     = {
       "Content-Type" => "application/json; charset=utf-8",
     }
     SF_SLEEP_TIME = 0.5
 
-    @@log = Logger.new(STDOUT, level: Logger::DEBUG)
-
-    protected def self.log
-      @@log
-    end
-
-    def self.log(log : Logger)
-      @@log = log
-    end
-
-    # Fetches all cards from Scryfall. Will return paginated list
-    def self.fetch_all_cards(page : Int32 | String = 1) : Scryfall::CardList
-      params = HTTP::Params.build do |form|
-        form.add "page", page.to_s
-        form.add "format", "json"
-        form.add "pretty", "false"
-      end
-      fetch_card_list(SF_CARDS_PATH, params)
-    end
+    spoved_logger
 
     # Look up card in scryfall by id
     def self.fetch_card(id : UUID) : Scryfall::Card
@@ -50,6 +31,18 @@ module Scryfall
     # Look up card in scryfall by multiverse id
     def self.fetch_card_by_mv(id : Int32) : Scryfall::Card
       Scryfall::Card.from_json(make_request("/cards/multiverse/#{id}"))
+    end
+
+
+    # Look up cards on query
+    def self.fetch_card_by_name(query : String) : CardList
+      params = HTTP::Params.build do |form|
+        form.add "order", "set"
+        form.add "unique", "prints"
+        form.add "q", query
+      end
+
+      fetch_card_list(SF_SEARCH_PATH, params)
     end
 
     # Look up card in scryfall by name
@@ -84,7 +77,7 @@ module Scryfall
     # Make a request with a URI object
     def self.make_request(uri : URI)
       sleep(SF_SLEEP_TIME)
-      log.info("GET: #{uri.to_s}", "Scryfall::Api")
+      logger.info { "GET: #{uri.to_s}" }
       Halite.get(uri.to_s, headers: SF_HEADERS).body
     end
   end

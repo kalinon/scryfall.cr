@@ -6,24 +6,20 @@ require "./card"
 
 module Scryfall
   struct CardList
+    include JSON::Serializable
     include Enumerable(Scryfall::Card)
-    setter uri : URI?
 
-    def initialize
-      @total_cards = 0
-      @has_more = false
-      @next_page = nil
-      @data = [] of Card
-      @warnings = [] of JSON::Any
-    end
+    @[JSON::Field(ignore: true)]
+    @params : HTTP::Params? = nil
 
-    JSON.mapping(
-      total_cards: {type: Int32, default: 0},
-      has_more: {type: Bool, default: false},
-      next_page: {type: URI, nilable: true},
-      data: {type: Array(Card), default: [] of Card},
-      warnings: {type: Array(JSON::Any), default: [] of JSON::Any}
-    )
+    setter uri : URI? = nil
+    getter data : Array(Card) = Array(Card).new
+    getter has_more : Bool = false
+    getter next_page : URI? = nil
+    getter total_cards : Int32 = 0
+    getter warnings : Array(JSON::Any) = Array(JSON::Any).new
+
+    def initialize; end
 
     def each
       data.each do |card|
@@ -57,31 +53,31 @@ module Scryfall
 
     # Returns the current page number
     def page : Int32
-      puts params.inspect
+      # puts params.inspect
       if params.has_key?("page")
         params["page"].to_i32
       else
-        0
+        1
       end
     end
 
     # if no URI was set, try to create one with the next_page information
     private def parse_uri : URI
       nex = next_page
-      unless nex.nil?
+      if nex.nil?
+        URI.new
+      else
         uri = URI.parse next_page.to_s
         params = HTTP::Params.parse(nex.query || "")
         params["page"] = ((params["page"].to_i32) - 1).to_s
         uri.query = params.to_s
         uri
-      else
-        URI.new
       end
     end
 
     # Will make an api request using the next_page value if available
     def fetch_next_page : CardList
-      puts "fetch_next_page : #{next_page.to_s}"
+      # puts "fetch_next_page : #{next_page.to_s}"
       nex = next_page
       if has_more? && !nex.nil?
         cards = CardList.from_json(Scryfall::Api.make_request(nex))
@@ -94,7 +90,7 @@ module Scryfall
 
     # Will make an api request decrementing the page number if available
     def fetch_prev_page : CardList
-      puts "fetch_prev_page"
+      # puts "fetch_prev_page"
       prev = prev_page
       if !prev.nil?
         cards = CardList.from_json(Scryfall::Api.make_request(prev))

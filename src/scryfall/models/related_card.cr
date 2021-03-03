@@ -5,10 +5,10 @@ require "../../ext/uri/json"
 
 module Scryfall
   struct RelatedCard
-    JSON.mapping(
-      id: UUID,
-      name: String,
-      uri: URI
-    )
+    include JSON::Serializable
+
+    property id : UUID
+    property name : String
+    property uri : URI
   end
 end

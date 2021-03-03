@@ -7,70 +7,67 @@ require "./related_card"
 
 module Scryfall
   struct Card
-    JSON.mapping(
-      # Core Card Fields
-      id: UUID,
-      oracle_id: UUID,
-      multiverse_ids: {type: Array(Int32), nilable: true},
-      mtgo_id: {type: Int32, nilable: true},
-      mtgo_foil_id: {type: Int32, nilable: true},
-      arena_id: {type: Int32, nilable: true},
-      uri: URI,
-      scryfall_uri: URI,
-      prints_search_uri: URI,
-      rulings_uri: URI,
+    # Core Card Fields
+    include JSON::Serializable
 
-      # Gameplay Fields
-      name: String,
-      layout: String,
-      cmc: Float32,
-      type_line: String,
-      oracle_text: {type: String, nilable: true},
-      mana_cost: {type: String, default: ""},
-      power: {type: String, nilable: true},
-      toughness: {type: String, nilable: true},
-      loyalty: {type: String, nilable: true},
-      life_modifier: {type: String, nilable: true},
-      hand_modifier: {type: String, nilable: true},
-      colors: {type: Array(String), default: [] of String},
-      color_indicator: {type: Array(String), nilable: true},
-      all_parts: {type: Array(Scryfall::RelatedCard), nilable: true},
-      legalities: Hash(String, String),
-      reserved: Bool,
-      foil: Bool,
-      nonfoil: Bool,
-      oversized: Bool,
-      edhrec_rank: {type: Int32, nilable: true},
+    property id : UUID
+    property oracle_id : UUID
+    property multiverse_ids : Array(Int32)? = nil
+    property mtgo_id : Int32? = nil
+    property mtgo_foil_id : Int32? = nil
+    property arena_id : Int32? = nil
+    property uri : URI
+    property scryfall_uri : URI
+    property prints_search_uri : URI
+    property rulings_uri : URI
 
-      # Print Fields
-      set: String,
-      set_name: String,
-      collector_number: String,
-      set_search_uri: URI,
-      scryfall_set_uri: URI,
-      image_uris: {type: Hash(String, URI), nilable: true},
-      highres_image: Bool,
-      printed_name: {type: String, default: ""},
-      printed_type_line: {type: String, default: ""},
-      printed_text: {type: String, default: ""},
-      reprint: Bool,
-      digital: Bool,
-      rarity: String,
-      flavor_text: {type: String, nilable: true},
-      artist: {type: String, nilable: true},
-      illustration_id: {type: URI, nilable: true},
-      frame: String,
-      full_art: Bool,
-      watermark: {type: String, nilable: true},
-      border_color: String,
-      story_spotlight_number: {type: Int32, nilable: true},
-      story_spotlight_uri: {type: URI, nilable: true},
-      timeshifted: Bool,
-      colorshifted: Bool,
-      futureshifted: Bool,
+    # Gameplay Fields
+    property name : String
+    property layout : String
+    property cmc : Float32
+    property type_line : String
+    property oracle_text : String? = nil
+    property mana_cost : String = ""
+    property power : String? = nil
+    property toughness : String? = nil
+    property loyalty : String? = nil
+    property life_modifier : String? = nil
+    property hand_modifier : String? = nil
+    property colors : Array(String) = Array(String).new
+    property color_indicator : Array(String)? = nil
+    property all_parts : Array(Scryfall::RelatedCard)? = nil
+    property legalities : Hash(String, String)
+    property reserved : Bool
+    property foil : Bool
+    property nonfoil : Bool
+    property oversized : Bool
+    property edhrec_rank : Int32? = nil
 
-      card_faces: {type: Array(Scryfall::CardFace), nilable: true},
-      related_cards: {type: Array(Scryfall::RelatedCard), nilable: true},
-    )
+    # Print Fields
+    property set : String
+    property set_name : String
+    property collector_number : String
+    property set_search_uri : URI
+    property scryfall_set_uri : URI
+    property image_uris : Hash(String, URI)? = nil
+    property highres_image : Bool
+    property printed_name : String = ""
+    property printed_type_line : String = ""
+    property printed_text : String = ""
+    property reprint : Bool
+    property digital : Bool
+    property rarity : String
+    property flavor_text : String? = nil
+    property artist : String? = nil
+    property illustration_id : URI? = nil
+    property frame : String
+    property full_art : Bool
+    property watermark : String? = nil
+    property border_color : String
+    property story_spotlight_number : Int32? = nil
+    property story_spotlight_uri : URI? = nil
+
+    property card_faces : Array(Scryfall::CardFace)? = nil
+    property related_cards : Array(Scryfall::RelatedCard)? = nil
   end
 end
