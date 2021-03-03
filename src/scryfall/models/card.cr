@@ -29,7 +29,7 @@ module Scryfall
     getter all_parts : Array(Scryfall::RelatedCard) = Array(Scryfall::RelatedCard).new
     getter card_faces : Array(Scryfall::CardFace) = Array(Scryfall::CardFace).new
     getter cmc : Float32
-    getter color_identity : String
+    getter color_identity : Array(String)
     getter color_indicator : Array(String) = Array(String).new
     getter colors : Array(String) = Array(String).new
     getter edhrec_rank : Int32? = nil
@@ -69,7 +69,7 @@ module Scryfall
     getter highres_image : Bool
     getter illustration_id : URI? = nil
     getter image_uris : Hash(String, URI) = Hash(String, URI).new
-    getter prices : Hash(String, String)
+    getter prices : Hash(String, String?)
     getter printed_name : String? = nil
     getter printed_text : String? = nil
     getter printed_type_line : String? = nil
