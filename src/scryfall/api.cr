@@ -53,7 +53,7 @@ module Scryfall
     # Look up card in scryfall by name
     def self.fetch_card_by_name(name : String, set_code : String? = nil) : CardList
       query = "name:!\"#{name}\""
-      query += " e:\"#{set_code}\"" unless set.nil?
+      query += " e:\"#{set_code}\"" unless set_code.nil?
 
       params = HTTP::Params.build do |form|
         form.add "order", "set"
