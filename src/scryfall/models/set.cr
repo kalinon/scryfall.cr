@@ -7,7 +7,7 @@ module Scryfall
     property id : UUID
     property code : String
     property mtgo_code : String? = nil
-    property arena_code : String
+    property arena_code : String? = nil
     property tcgplayer_id : Int32? = nil
     property name : String
     property uri : String
