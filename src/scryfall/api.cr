@@ -19,7 +19,7 @@ module Scryfall
     spoved_logger
 
     # Fetch set list
-    def self.set : SetList
+    def self.sets : SetList
       Scryfall::SetList.from_json(make_request("/sets"))
     end
 
