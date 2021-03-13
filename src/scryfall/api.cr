@@ -51,11 +51,14 @@ module Scryfall
     end
 
     # Look up card in scryfall by name
-    def self.fetch_card_by_name(name : String) : CardList
+    def self.fetch_card_by_name(name : String, set_code : String? = nil) : CardList
+      query = "name:!\"#{name}\""
+      query += " e:\"#{set_code}\"" unless set.nil?
+
       params = HTTP::Params.build do |form|
         form.add "order", "set"
         form.add "unique", "prints"
-        form.add "q", "name:!\"#{name}\""
+        form.add "q", query
       end
 
       fetch_card_list(SF_SEARCH_PATH, params)
