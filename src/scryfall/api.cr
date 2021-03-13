@@ -18,6 +18,11 @@ module Scryfall
 
     spoved_logger
 
+    # Fetch set list
+    def self.set : SetList
+      Scryfall::SetList.from_json(make_request("/sets"))
+    end
+
     # Look up card in scryfall by id
     def self.fetch_card(id : UUID) : Scryfall::Card
       fetch_card(id.to_s)
