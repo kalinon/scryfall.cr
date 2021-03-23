@@ -33,35 +33,34 @@ module Scryfall
       Scryfall::Card.from_json(make_request("/cards/#{id}"))
     end
 
+    # Look up card in scryfall by set
+    def self.fetch_card_by_set(set_code : String, set_num : String | Int32) : Scryfall::Card
+      uri = "/cards/#{set_code}/#{set_num}"
+      Scryfall::Card.from_json(make_request(uri))
+    end
+
     # Look up card in scryfall by multiverse id
     def self.fetch_card_by_mv(id : Int32) : Scryfall::Card
       Scryfall::Card.from_json(make_request("/cards/multiverse/#{id}"))
     end
 
-
     # Look up cards on query
-    def self.fetch_card_by_name(query : String) : CardList
+    def self.query(q : String) : CardList
       params = HTTP::Params.build do |form|
         form.add "order", "set"
         form.add "unique", "prints"
-        form.add "q", query
+        form.add "q", q
       end
 
       fetch_card_list(SF_SEARCH_PATH, params)
     end
 
     # Look up card in scryfall by name
-    def self.fetch_card_by_name(name : String, set_code : String? = nil) : CardList
-      query = "name:!\"#{name}\""
-      query += " e:\"#{set_code}\"" unless set_code.nil?
+    def self.search_card_by_name(name : String, set_code : String? = nil) : CardList
+      q = "name:!\"#{name}\""
+      q += " e:\"#{set_code}\"" unless set_code.nil?
 
-      params = HTTP::Params.build do |form|
-        form.add "order", "set"
-        form.add "unique", "prints"
-        form.add "q", query
-      end
-
-      fetch_card_list(SF_SEARCH_PATH, params)
+      self.query(q)
     end
 
     # Function to wrap card list searches to properly set the request URI
@@ -85,7 +84,7 @@ module Scryfall
     # Make a request with a URI object
     def self.make_request(uri : URI)
       sleep(SF_SLEEP_TIME)
-      logger.info { "GET: #{uri.to_s}" }
+      logger.debug { "GET: #{uri.to_s}" }
       Halite.get(uri.to_s, headers: SF_HEADERS).body
     end
   end
