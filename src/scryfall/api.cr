@@ -44,6 +44,11 @@ module Scryfall
       Scryfall::Card.from_json(make_request("/cards/multiverse/#{id}"))
     end
 
+    # https://scryfall.com/docs/api/catalogs
+    def self.catalog(catalog : String) : Scryfall::Catalog
+      Scryfall::Catalog.from_json(make_request("/catalog/#{catalog}"))
+    end
+
     # Look up cards on query
     def self.query(q : String) : CardList
       params = HTTP::Params.build do |form|
