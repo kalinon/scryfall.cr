@@ -1,7 +1,7 @@
 require "../../spec_helper"
 
 describe Scryfall::CardList do
-  cards = Scryfall::Api.fetch_card_by_name("light")
+  cards = Scryfall::Api.search_card_by_name("light")
 
   it "should have cards" do
     cards.should be_a Scryfall::CardList

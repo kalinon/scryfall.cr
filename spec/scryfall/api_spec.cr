@@ -3,7 +3,7 @@ require "../spec_helper"
 describe Scryfall::Api do
   describe "#fetch_card_by_name" do
     it "should fetch cards" do
-      list = Scryfall::Api.fetch_card_by_name("ponder")
+      list = Scryfall::Api.search_card_by_name("ponder")
       list.should_not be_nil
       list.should be_a Scryfall::CardList
     end

@@ -2,11 +2,13 @@ require "halite"
 require "uuid"
 require "./models/*"
 require "spoved/logger"
+require "./search"
 
 module Scryfall
   class Api
-    class Error < Exception
-    end
+    class Error < Exception; end
+
+    extend Scryfall::Search
 
     SF_SCHEME      = "https"
     SF_HOST        = "api.scryfall.com"
