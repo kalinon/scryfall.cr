@@ -11,6 +11,6 @@ license: MIT
 dependencies:
   spoved:
     github: spoved/spoved.cr
-    version: ">= 0.5.2"
+    version: "~> 0.6.0"
   mtg:
     github: spoved/mtg.cr
