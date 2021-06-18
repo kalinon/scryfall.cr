@@ -1,5 +1,5 @@
 name: scryfall
-version: 0.2.2
+version: 0.2.3
 
 authors:
   - Holden Omans <holden.omans@gmail.com>
@@ -14,3 +14,5 @@ dependencies:
     version: "~> 0.6.0"
   mtg:
     github: spoved/mtg.cr
+  halite:
+    github: icyleaf/halite
