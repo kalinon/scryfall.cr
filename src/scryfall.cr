@@ -4,3 +4,5 @@ require "./scryfall/models/*"
 
 module Scryfall
 end
+
+Scryfall::Api.configure

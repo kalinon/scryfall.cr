@@ -1,5 +1,5 @@
 name: scryfall
-version: 0.2.5
+version: 0.2.6
 
 authors:
   - Holden Omans <holden.omans@gmail.com>
@@ -16,3 +16,5 @@ dependencies:
     github: spoved/mtg.cr
   halite:
     github: icyleaf/halite
+  db:
+    github: crystal-lang/crystal-db
