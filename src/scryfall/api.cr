@@ -8,7 +8,24 @@ require "db/pool"
 module Scryfall
   class Api
     class Error < Exception
+      getter resp : RespObject? = nil
+
+      def initialize(resp : RespObject)
+        @resp = resp
+        @message = resp.details
+      end
+
       class ConnectionLost < ::DB::PoolResourceLost(HTTP::Client); end
+
+      class NotFound < Error; end
+
+      struct RespObject
+        include JSON::Serializable
+        getter object : String
+        getter code : String
+        getter status : Int32
+        getter details : String
+      end
     end
 
     record Options, pool_capacity = 200, initial_pool_size = 20, pool_timeout = 0.1, sleep_time = 0.1
@@ -52,7 +69,8 @@ module Scryfall
 
     # Look up card in scryfall by id
     def self.fetch_card(id : String) : Scryfall::Card
-      Scryfall::Card.from_json(make_request("/cards/#{id}"))
+      resp = make_request("/cards/#{id}")
+      Scryfall::Card.from_json(resp)
     end
 
     # Look up card in scryfall by set
@@ -113,7 +131,14 @@ module Scryfall
       sleep(@@sleep_time) if @@sleep_time > 0
       logger.debug { "GET: #{uri}" }
       using_connection do |client|
-        client.get(uri.to_s, headers: SF_HEADERS).body
+        resp = client.get(uri.to_s, headers: SF_HEADERS)
+        if resp.success?
+          resp.body
+        elsif resp.status_code == 404
+          raise Error::NotFound.new(Error::RespObject.from_json(resp.body))
+        else
+          raise Error.new(Error::RespObject.from_json(resp.body))
+        end
       end
     end
 
