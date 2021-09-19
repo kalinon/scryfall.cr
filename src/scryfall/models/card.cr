@@ -17,7 +17,7 @@ module Scryfall
     getter mtgo_foil_id : Int32? = nil
     getter multiverse_ids : Array(Int32)? = nil
     getter tcgplayer_id : Int32? = nil
-    getter tcgplayer_id : Int32? = nil
+    getter cardmarket_id : Int32? = nil
     getter object : String
     getter oracle_id : UUID
     getter prints_search_uri : URI
@@ -29,21 +29,21 @@ module Scryfall
     getter all_parts : Array(Scryfall::RelatedCard) = Array(Scryfall::RelatedCard).new
     getter card_faces : Array(Scryfall::CardFace) = Array(Scryfall::CardFace).new
     getter cmc : Float32
-    getter color_identity : Array(String)
+    getter color_identity : Array(String) = Array(String).new
     getter color_indicator : Array(String) = Array(String).new
     getter colors : Array(String) = Array(String).new
     getter edhrec_rank : Int32? = nil
     getter hand_modifier : String? = nil
     getter keywords : Array(String) = Array(String).new
     getter layout : String
-    getter legalities : Hash(String, String)
+    getter legalities : Hash(String, String) = Hash(String, String).new
     getter life_modifier : String? = nil
     getter loyalty : String? = nil
     getter mana_cost : String? = nil
     getter name : String
     # getter? foil : Bool
     # getter? nonfoil : Bool
-    getter finishes: Array(String) = Array(String).new
+    getter finishes : Array(String) = Array(String).new
     getter oracle_text : String? = nil
     getter? oversized : Bool
     getter power : String? = nil
@@ -68,7 +68,8 @@ module Scryfall
     getter? full_art : Bool
     getter games : Array(String) = Array(String).new
     getter? highres_image : Bool
-    getter illustration_id : URI? = nil
+    getter illustration_id : UUID? = nil
+    getter image_status : String
     getter image_uris : Hash(String, URI) = Hash(String, URI).new
     getter prices : Hash(String, String?)
     getter printed_name : String? = nil
@@ -76,21 +77,27 @@ module Scryfall
     getter printed_type_line : String? = nil
     getter? promo : Bool
     getter promo_types : Array(String) = Array(String).new
-    getter purchase_uris : Hash(String, String)
+    getter purchase_uris : Hash(String, String) = Hash(String, String).new
     getter rarity : String
-    getter related_uris : Hash(String, String)
+    getter related_uris : Hash(String, String) = Hash(String, String).new
     getter released_at : String
     getter? reprint : Bool
     getter set_search_uri : URI
+    getter scryfall_set_uri : URI
     getter set_name : String
     getter set_type : String
     getter set_uri : URI
     getter set : String
+    getter set_id : UUID
     getter? story_spotlight : Bool
     getter? textless : Bool
     getter? variation : Bool
     getter variation_of : UUID? = nil
     getter watermark : String? = nil
     getter preview : Hash(String, String) = Hash(String, String).new
+
+    def uuid
+      id
+    end
   end
 end

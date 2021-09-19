@@ -5,13 +5,13 @@ module Scryfall
     property object : String
     property id : UUID
     @[JSON::Field(key: "type")]
-    property datum_type : String
+    property bulk_type : String
     property updated_at : String
     property uri : String
     property name : String
     property description : String
     property compressed_size : Int32
-    property download_uri : String
+    property download_uri : URI
     property content_type : String
     property content_encoding : String
   end
