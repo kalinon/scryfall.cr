@@ -57,6 +57,10 @@ module Scryfall
 
     spoved_logger
 
+    def self.bulk_data
+      Scryfall::BulkDataList.from_json(make_request("/bulk-data"))
+    end
+
     # Fetch set list
     def self.sets : SetList
       Scryfall::SetList.from_json(make_request("/sets"))

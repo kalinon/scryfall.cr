@@ -27,6 +27,5 @@ module Scryfall
     property parent_set_code : String? = nil
 
     property printed_size : Int32? = nil
-
   end
 end

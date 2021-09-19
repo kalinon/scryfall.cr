@@ -16,4 +16,10 @@ describe Scryfall::Api do
       card.should be_a Scryfall::Card
     end
   end
+
+  describe "#bulk_data" do
+    it "should fetch bulk data" do
+      Scryfall::Api.bulk_data.should_not be_nil
+    end
+  end
 end
