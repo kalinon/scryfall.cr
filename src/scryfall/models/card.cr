@@ -19,7 +19,7 @@ module Scryfall
     getter tcgplayer_id : Int32? = nil
     getter cardmarket_id : Int32? = nil
     getter object : String
-    getter oracle_id : UUID
+    getter oracle_id : UUID? = nil
     getter prints_search_uri : URI
     getter rulings_uri : URI
     getter scryfall_uri : URI
