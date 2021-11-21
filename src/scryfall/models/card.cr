@@ -28,7 +28,7 @@ module Scryfall
     # Gameplay Fields
     getter all_parts : Array(Scryfall::RelatedCard) = Array(Scryfall::RelatedCard).new
     getter card_faces : Array(Scryfall::CardFace) = Array(Scryfall::CardFace).new
-    getter cmc : Float32
+    getter cmc : Float32? = nil
     getter color_identity : Array(String) = Array(String).new
     getter color_indicator : Array(String) = Array(String).new
     getter colors : Array(String) = Array(String).new
@@ -48,16 +48,15 @@ module Scryfall
     getter? oversized : Bool
     getter power : String? = nil
     getter produced_mana : Array(String) = Array(String).new
-    getter type_line : String
+    getter type_line : String = ""
     getter? reserved : Bool
     getter toughness : String? = nil
-    getter type_line : String
 
     # Print Fields
     getter artist : String? = nil
     getter? booster : Bool
     getter border_color : String
-    getter card_back_id : UUID
+    getter card_back_id : UUID? = nil
     getter collector_number : String
     getter? content_warning : Bool = false
     getter? digital : Bool

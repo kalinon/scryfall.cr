@@ -15,6 +15,7 @@ module Scryfall
     getter image_uris : Hash(String, URI)? = nil
     getter loyalty : String? = nil
     getter mana_cost : String
+    getter cmc : Float32? = nil
     getter name : String
     getter object : String
     getter oracle_text : String? = nil
