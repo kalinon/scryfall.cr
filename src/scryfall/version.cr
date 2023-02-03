@@ -1,3 +1,3 @@
 module Scryfall
-  VERSION = "0.3.6"
+  VERSION = {{ `shards version "#{__DIR__}"`.chomp.stringify }}
 end
