@@ -10,7 +10,7 @@ module Scryfall
     property uri : String
     property name : String
     property description : String
-    property compressed_size : Int32
+    property compressed_size : Int32? = nil
     property download_uri : URI
     property content_type : String
     property content_encoding : String
