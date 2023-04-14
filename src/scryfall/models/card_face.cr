@@ -28,5 +28,10 @@ module Scryfall
     getter toughness : String? = nil
     getter loyalty : String? = nil
     getter defense : String? = nil
+
+    def_equals :name, :type_line, :oracle_text, :mana_cost, :power, :toughness, :loyalty,
+      :defense, :flavor_text, :artist, :illustration_id,
+      :image_uris, :cmc, :colors, :color_indicator, :watermark,
+      :printed_name, :printed_text, :printed_type_line
   end
 end
