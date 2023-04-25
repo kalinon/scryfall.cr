@@ -1,5 +1,5 @@
 name: scryfall
-version: 0.3.8
+version: 0.4.0
 
 authors:
   - Holden Omans <holden.omans@gmail.com>
@@ -9,12 +9,7 @@ crystal: ">= 0.36.1, < 2.0.0"
 license: MIT
 
 dependencies:
-  spoved:
-    github: spoved/spoved.cr
-    version: ">= 0.8.0"
+  toshi:
+    github: spoved/toshi.cr
   mtg:
     github: spoved/mtg.cr
-  halite:
-    github: icyleaf/halite
-  db:
-    github: crystal-lang/crystal-db

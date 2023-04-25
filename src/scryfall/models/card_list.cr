@@ -80,7 +80,7 @@ module Scryfall
       # puts "fetch_next_page : #{next_page.to_s}"
       nex = next_page
       if has_more? && !nex.nil?
-        cards = CardList.from_json(Scryfall::Api.make_request(nex))
+        cards = CardList.from_json(Scryfall::Api._request(nex))
         cards.uri = nex
         cards
       else
@@ -93,7 +93,7 @@ module Scryfall
       # puts "fetch_prev_page"
       prev = prev_page
       if !prev.nil?
-        cards = CardList.from_json(Scryfall::Api.make_request(prev))
+        cards = CardList.from_json(Scryfall::Api._request(prev))
         cards.uri = prev
         cards
       else
