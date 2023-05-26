@@ -62,7 +62,7 @@ module Scryfall
         form.add "unique", "prints" unless params.has_key?("unique")
         form.add "q", q
         params.each do |k, v|
-          form.add k, v
+          form.add k.to_s, v
         end
       end
 
