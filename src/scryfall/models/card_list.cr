@@ -14,7 +14,7 @@ module Scryfall
 
     setter uri : URI? = nil
     getter data : Array(Card) = Array(Card).new
-    getter has_more : Bool = false
+    getter? has_more : Bool = false
     getter next_page : URI? = nil
     getter total_cards : Int32 = 0
     getter warnings : Array(JSON::Any) = Array(JSON::Any).new
@@ -25,10 +25,6 @@ module Scryfall
       data.each do |card|
         yield card
       end
-    end
-
-    def has_more? : Bool
-      self.has_more
     end
 
     def uri

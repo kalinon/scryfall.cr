@@ -56,11 +56,14 @@ module Scryfall
     define_catalogs
 
     # Look up cards on query
-    def self.query(q : String) : CardList
+    def self.query(q : String, params = Hash(String, String).new) : CardList
       params = HTTP::Params.build do |form|
-        form.add "order", "set"
-        form.add "unique", "prints"
+        form.add "order", "set" unless params.has_key?("order")
+        form.add "unique", "prints" unless params.has_key?("unique")
         form.add "q", q
+        params.each do |k, v|
+          form.add k, v
+        end
       end
 
       fetch_card_list(SF_SEARCH_PATH, params)
