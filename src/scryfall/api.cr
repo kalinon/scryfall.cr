@@ -30,7 +30,30 @@ module Scryfall
     define_api_method :get, "/cards/multiverse/:id", Scryfall::Card, :fetch_card_by_mv
 
     # https://scryfall.com/docs/api/catalogs
-    define_api_method :get, "/catalog/:catalog", Scryfall::Catalog
+    define_api_method :get, "/catalog/:catalog", Scryfall::Catalog, :catalog
+
+    macro define_catalogs
+      {% for cat in %w(card-names
+                      artist-names
+                      word-bank
+                      creature-types
+                      planeswalker-types
+                      land-types
+                      artifact-types
+                      enchantment-types
+                      spell-types
+                      powers
+                      toughnesses
+                      loyalties
+                      watermarks
+                      keyword-abilities
+                      keyword-actions
+                      ability-words) %}
+      define_api_method :get, "/catalog/{{ cat.id }}", Scryfall::Catalog, :get_{{ cat.gsub(/\-/, "_").id }}
+      {% end %}
+    end
+
+    define_catalogs
 
     # Look up cards on query
     def self.query(q : String) : CardList

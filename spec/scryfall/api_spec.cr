@@ -22,4 +22,10 @@ describe Scryfall::Api do
       Scryfall::Api.bulk_data.should_not be_nil
     end
   end
+
+  describe "#get_catalog" do
+    it "should fetch catalog" do
+      Scryfall::Api.catalog("card-names").should_not be_nil
+    end
+  end
 end
