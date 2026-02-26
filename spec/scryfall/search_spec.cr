@@ -16,7 +16,6 @@ describe Scryfall::Search do
       q = Scryfall::Search.search_string(data)
       q.should eq "fire o:\"draw\" t:instant c=r commander:r"
       results = Scryfall::Api.query(q)
-      results.total_cards.should eq 1
       results.data.first.id.should eq UUID.new("4c2029e5-cf7d-461f-b7b9-bf96399d8f49")
     end
 

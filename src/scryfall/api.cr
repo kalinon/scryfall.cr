@@ -1,3 +1,4 @@
+require "./version"
 require "toshi"
 require "uuid"
 require "./models/*"
@@ -10,6 +11,8 @@ module Scryfall
 
     define_api "api.scryfall.com", default_headers: HTTP::Headers{
       "Content-Type" => "application/json; charset=utf-8",
+      "User-Agent"   => "Scryfall API Crystal Client (#{::Scryfall::VERSION})",
+      "Accept"       => "application/json",
     }
 
     define_api_method :get, "/bulk-data", BulkDataList, :bulk_data
